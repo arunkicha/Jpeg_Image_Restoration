@@ -1,0 +1,13 @@
+echo torch>=2.2
+echo torchvision
+echo pytorch-msssim
+echo opencv-python
+echo pillow
+echo numpy
+echo tqdm
+echo pyyaml
+>> requirements.txt
+
+git add requirements.txt
+git commit -m "Add requirements.txt"
+git push

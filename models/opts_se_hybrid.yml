@@ -1,0 +1,58 @@
+# DATA
+train_roots:
+  - "C:\\Vit\\Fall semester 25-26\\Project\\SWE1010\\Datasets\\Primary Datasets\\DIV2K_train_HR"
+valid_roots:
+  - "C:\\Vit\\Fall semester 25-26\\Project\\SWE1010\\Datasets\\Primary Datasets\\DIV2K_valid_HR"
+
+crop: 192
+workers: 4
+prefetch_factor: 4
+batch_size: 8
+
+# MODEL
+quality_cond: concat    # <— important: enables 4-channel input
+base_channels: 48
+n_parts: 6
+use_se: true
+use_cbam: false
+ema_decay: 0.9999
+warmup_steps: 1000
+
+# curriculum spans your total epochs
+qf_stages:
+  - { start_epoch: 0,  end_epoch: 20,  qmin: 20, qmax: 60 }
+  - { start_epoch: 20, end_epoch: 60,  qmin: 10, qmax: 80 }
+  - { start_epoch: 60, end_epoch: 120, qmin: 5,  qmax: 95 }
+
+# losses (psnr-leaning defaults)
+alpha: 1.0
+beta: 0.004
+gamma: 0.3
+use_msssim: true
+use_y_for_ssim: true
+dct_weight: 0.03
+use_charbonnier: false
+
+# optim / amp
+lr_pretrained: 1.0e-5
+lr_new: 1.0e-4
+use_amp: true
+use_compile: false
+
+# validation
+val_use_fixed_qfs: true
+val_fixed_qfs: [10, 20, 30, 40]
+val_crop_border: 0
+val_freq: 1
+
+# logging / output
+save_dir: exp/se_hybrid_b12_e120_psnr
+log_interval: 500
+sample_interval: 2000
+ckpt_every: 1
+
+# test-time defaults (used by test.py --opts)
+test_q_default: 75
+test_q_sweep: [10,20,30,40,60,80]
+epochs: 120
+accum_steps: 1

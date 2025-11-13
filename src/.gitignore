@@ -1,0 +1,17 @@
+# Checkpoints and experiments
+exp/
+*.pth
+
+# Dataset folders
+datasets/
+data/
+DIV2K/
+Flickr2K/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# VSCode or other IDE settings
+.vscode/
+.idea/
